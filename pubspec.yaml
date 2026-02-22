@@ -1,0 +1,17 @@
+name: kandyzx
+version: 1.0.0+1
+description: A Flutter app like Candy Crush.
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.5
+  collection: ^1.16.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true

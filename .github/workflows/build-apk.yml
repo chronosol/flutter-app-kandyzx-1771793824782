@@ -1,0 +1,27 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.0.0'
+    - run: flutter pub get
+    - run: flutter build apk --release
+    - uses: actions/upload-artifact@v3
+      with:
+        name: app-release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Send webhook
+      env:
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      run: |
+        curl -X POST -H "Content-Type: application/json" -d '{"projectId":"${{ env.PROJECT_ID }}","apkUrl":"https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts"}' $WEBHOOK_URL
